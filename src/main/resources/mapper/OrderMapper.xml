@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ordermeal.mapper.OrderMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.team.ordermeal.entity.Order">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="merchant_id" property="merchantId"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="status" property="status"/>
+        <result column="address_id" property="addressId"/>
+        <result column="remark" property="remark"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="confirm_time" property="confirmTime"/>
+        <result column="deliver_time" property="deliverTime"/>
+        <result column="complete_time" property="completeTime"/>
+        <result column="expire_time" property="expireTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 插入订单（忽略 id 自增） -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_order (order_no, user_id, merchant_id, total_amount, status, address_id, remark, expire_time)
+        VALUES (#{orderNo}, #{userId}, #{merchantId}, #{totalAmount}, #{status}, #{addressId}, #{remark}, #{expireTime})
+    </insert>
+
+    <!-- 更新订单 -->
+    <update id="updateById">
+        UPDATE tb_order
+        SET status = #{status},
+            pay_time = #{payTime},
+            confirm_time = #{confirmTime},
+            deliver_time = #{deliverTime},
+            complete_time = #{completeTime},
+            expire_time = #{expireTime}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM tb_order WHERE id = #{id}
+    </select>
+
+    <!-- 查询所有待支付且已过期的订单 -->
+    <select id="selectExpiredPendingOrders" resultMap="BaseResultMap">
+        SELECT * FROM tb_order
+        WHERE status = 'PENDING' AND expire_time &lt; #{now}
+    </select>
+</mapper>
