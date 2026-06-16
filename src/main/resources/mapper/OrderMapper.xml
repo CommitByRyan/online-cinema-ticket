@@ -3,7 +3,7 @@
 <mapper namespace="com.team.ordermeal.mapper.OrderMapper">
 
     <!-- 结果映射 -->
-    <resultMap id="BaseResultMap" type="com.team.ordermeal.entity.Order">
+    <resultMap id="BaseResultMap" type="com.group7.olineordermeal.entity.Order">
         <id column="id" property="id"/>
         <result column="order_no" property="orderNo"/>
         <result column="user_id" property="userId"/>
