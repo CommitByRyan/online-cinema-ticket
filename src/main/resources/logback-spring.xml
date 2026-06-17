@@ -9,9 +9,9 @@
 
     <!-- 文件输出，按天滚动 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/ordermeal.log</file>
+        <file>logs/olineordermeal.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/ordermeal.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/olineordermeal.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
