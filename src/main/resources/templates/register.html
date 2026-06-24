@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户注册 - 在线点餐系统</title>
+    <!-- Bootstrap5 样式CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 自定义美化样式，和登录页视觉统一 -->
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e6f9ef 0%, #f0fff7 100%);
+            display: flex;
+            align-items: center;
+        }
+        .register-card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 8px 30px rgba(25, 135, 84, 0.12);
+            overflow: hidden;
+        }
+        .card-header {
+            background: linear-gradient(90deg, #198754, #157347) !important;
+            padding: 1.25rem !important;
+        }
+        .form-control {
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #dee2e6;
+            transition: all 0.25s ease;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.2);
+            border-color: #198754;
+        }
+        .submit-btn {
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+        }
+        .alert-danger {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7 col-sm-10">
+            <div class="card register-card shadow-lg">
+                <!-- 头部标题栏 -->
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="mb-0 fw-bold">用户注册</h3>
+                    <p class="mb-0 mt-1 opacity-75 fs-6">在线点餐系统新用户账号注册</p >
+                </div>
+
+                <div class="card-body p-4">
+                    <!-- 错误提示区域（原Thymeleaf逻辑完全不变） -->
+                    <div th:if="${error}" class="alert alert-danger mb-4 text-center" th:text="${error}"></div>
+
+                    <!-- 注册表单，字段、提交地址、必填校验全部保留 -->
+                    <form method="post" action="/register">
+                        <div class="mb-4">
+                            <label class="form-label fw-medium">用户名</label>
+                            <input type="text" name="username" class="form-control" required placeholder="请设置你的用户名">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-medium">密码</label>
+                            <input type="password" name="password" class="form-control" required placeholder="请设置登录密码">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-medium">手机号</label>
+                            <input type="tel" name="phone" class="form-control" required placeholder="请输入手机号码">
+                            <small class="text-muted mt-1 d-block">用于订单号生成</small>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 submit-btn fs-5">注册</button>
+                    </form>
+
+                    <hr class="my-4 text-secondary opacity-25">
+
+                    <!-- 跳转登录页面，链接逻辑不变 -->
+                    <div class="text-center">
+                        <span class="text-secondary">已有账号？</span>
+                        <a th:href="@{/login}" class="text-success fw-medium text-decoration-none">去登录</a >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
