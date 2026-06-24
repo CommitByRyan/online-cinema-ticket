@@ -3,6 +3,9 @@ package com.group7.olineordermeal.dto;
 import lombok.Data;
 import java.math.BigDecimal;
 
+import lombok.Data;
+import java.math.BigDecimal;
+
 /**
  * 购物车展示项（包含菜品信息和数量）
  */
