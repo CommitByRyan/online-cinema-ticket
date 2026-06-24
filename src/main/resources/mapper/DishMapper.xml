@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ordermeal.mapper.DishMapper">
+
+    <resultMap id="BaseResultMap" type="com.team.ordermeal.entity.Dish">
+        <id column="id" property="id"/>
+        <result column="merchant_id" property="merchantId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="dish_name" property="dishName"/>
+        <result column="price" property="price"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="image" property="image"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="sales" property="sales"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="merchant_name" property="merchantName"/>  <!-- 额外字段 -->
+    </resultMap>
+
+    <!-- 基础查询字段 -->
+    <sql id="BaseColumns">
+        d.id, d.merchant_id, d.category_id, d.dish_name, d.price, d.original_price,
+        d.image, d.description, d.status, d.sales, d.create_time, d.update_time,
+        m.merchant_name
+    </sql>
+
+    <!-- 多条件搜索（只查上架的菜品） -->
+    <select id="searchWithMerchant" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/>
+        FROM tb_dish d
+        LEFT JOIN tb_merchant m ON d.merchant_id = m.id
+        WHERE d.status = 'ONLINE'
+        <if test="search.dishName != null and search.dishName != ''">
+            AND d.dish_name LIKE CONCAT('%', #{search.dishName}, '%')
+        </if>
+        <if test="search.minPrice != null">
+            AND d.price >= #{search.minPrice}
+        </if>
+        <if test="search.maxPrice != null">
+            AND d.price &lt;= #{search.maxPrice}
+        </if>
+        <if test="search.merchantName != null and search.merchantName != ''">
+            AND m.merchant_name LIKE CONCAT('%', #{search.merchantName}, '%')
+        </if>
+        ORDER BY d.sales DESC, d.create_time DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/>
+        FROM tb_dish d
+        LEFT JOIN tb_merchant m ON d.merchant_id = m.id
+        WHERE d.id = #{id}
+    </select>
+
+    <!-- 批量查询 -->
+    <select id="selectByIds" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/>
+        FROM tb_dish d
+        LEFT JOIN tb_merchant m ON d.merchant_id = m.id
+        WHERE d.id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>
