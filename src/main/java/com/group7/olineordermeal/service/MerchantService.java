@@ -44,4 +44,6 @@ public interface MerchantService {
      * @return 符合该状态的商家集合
      */
     List<Merchant> listByStatus(String status);
+    /** 查询所有商家（管理员列表页面使用） */
+    List<Merchant> listAll();
 }

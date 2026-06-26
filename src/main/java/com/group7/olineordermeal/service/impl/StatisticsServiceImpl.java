@@ -1,45 +1,45 @@
 package com.group7.olineordermeal.service.impl;
 
-
-import com.group7.olineordermeal.mapper.OrderMapper;
-import com.group7.olineordermeal.mapper.UserMapper;
-import com.group7.olineordermeal.mapper.MerchantMapper;
+import com.group7.olineordermeal.mapper.StatisticsMapper;
 import com.group7.olineordermeal.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 统计报表的具体实现
+ */
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
 
     @Autowired
-    private OrderMapper orderMapper;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private MerchantMapper merchantMapper;
+    private StatisticsMapper statisticsMapper;
 
+    /** 已完成订单总数 */
     @Override
     public long getTotalOrderCount() {
-        // 统计已完成订单数量
-        return orderMapper.countCompletedOrders(); // 需要在 OrderMapper 中添加方法
+        return statisticsMapper.countCompletedOrders();
     }
 
+    /** 已完成订单总交易额 */
     @Override
     public BigDecimal getTotalRevenue() {
-        return orderMapper.sumCompletedOrderAmount(); // 添加方法
+        return statisticsMapper.sumCompletedOrderAmount();
     }
 
+    /** 近 7 天活跃用户数 */
     @Override
     public long getActiveUserCount() {
         LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
-        return userMapper.countActiveUsersSince(sevenDaysAgo); // 添加方法
+        return statisticsMapper.countActiveUsersSince(sevenDaysAgo);
     }
 
+    /** 近 7 天活跃商家数 */
     @Override
     public long getActiveMerchantCount() {
         LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
-        return merchantMapper.countActiveMerchantsSince(sevenDaysAgo); // 添加方法
+        return statisticsMapper.countActiveMerchantsSince(sevenDaysAgo);
     }
 }

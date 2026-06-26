@@ -1,17 +1,22 @@
 package com.group7.olineordermeal.service;
 
-
-
 import java.math.BigDecimal;
-import java.util.Map;
 
+/**
+ * 平台运营统计 Service
+ * 供管理员页面使用
+ */
 public interface StatisticsService {
-    // 总订单数（已完成）
+
+    /** 已完成订单总数 */
     long getTotalOrderCount();
-    // 总交易额（已完成订单的总金额）
+
+    /** 已完成订单总交易额（已完成订单的 sum） */
     BigDecimal getTotalRevenue();
-    // 活跃用户数（近7天有已完成订单的用户）
+
+    /** 近 7 天活跃用户数（有已完成订单的用户） */
     long getActiveUserCount();
-    // 活跃商家数（近7天有已完成订单的商家）
+
+    /** 近 7 天活跃商家数（有已完成订单的商家） */
     long getActiveMerchantCount();
 }

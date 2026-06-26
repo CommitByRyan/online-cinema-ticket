@@ -48,4 +48,8 @@ public interface OrderService {
      * @return
      */
     int cancelExpiredPendingOrders();
+    // 商家端订单列表
+    List<Order> getOrdersByMerchant(Long merchantId, String status);
+    // 商家更新订单状态（带状态机校验）
+    void updateOrderStatus(Long orderId, String targetStatus, Long merchantId);
 }

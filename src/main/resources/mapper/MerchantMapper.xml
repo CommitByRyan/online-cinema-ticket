@@ -44,5 +44,9 @@
         WHERE status = #{status}
         ORDER BY create_time DESC
     </select>
-
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM tb_merchant
+        ORDER BY create_time DESC
+    </select>
 </mapper>

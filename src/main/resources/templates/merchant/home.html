@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商家后台首页</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
+
+<!-- ================== 顶部导航 ================== -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">商家后台</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navMenu" aria-controls="navMenu"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" th:href="@{/merchant/dish/list}">菜品管理</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/merchant/category}">分类管理</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/merchant/info}">店铺信息</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/merchant/order/list}">订单管理</a></li>
+            </ul>
+
+            <!-- 右侧的退出按钮 -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/merchant/logout}">退出登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ================== 主体内容 ================== -->
+<div class="container mt-4">
+    <h2 class="mb-4">欢迎回来，<span th:text="${merchant.merchantName}">[商家名称]</span>！</h2>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <a th:href="@{/merchant/dish/list}" class="btn btn-outline-success w-100 py-3">
+                <i class="bi bi-card-list"></i> 菜品管理
+            </a>
+        </div>
+        <div class="col-12 col-md-6">
+            <a th:href="@{/merchant/order/list}" class="btn btn-outline-primary w-100 py-3">
+                <i class="bi bi-receipt"></i> 订单管理
+            </a>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <p class="text-muted">在左侧导航栏或上面的快捷按钮中选择需要的功能。</p>
+</div>
+
+<!-- Bootstrap JS (可选，只用于导航折叠等交互) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

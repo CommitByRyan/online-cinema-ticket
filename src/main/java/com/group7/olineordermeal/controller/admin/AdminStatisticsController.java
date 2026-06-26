@@ -32,4 +32,5 @@ public class AdminStatisticsController {
         return "admin/platform_statistics";
     }
 
+
 }

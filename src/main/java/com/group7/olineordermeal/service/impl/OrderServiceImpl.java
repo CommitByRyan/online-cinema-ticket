@@ -2,6 +2,7 @@ package com.group7.olineordermeal.service.impl;
 
 import com.group7.olineordermeal.common.enums.OrderStatusEnum;
 import com.group7.olineordermeal.common.exception.BusinessException;
+import com.group7.olineordermeal.common.utils.OrderStateMachine;
 import com.group7.olineordermeal.dto.CartItemDTO;
 import com.group7.olineordermeal.dto.CreateOrderDTO;
 import com.group7.olineordermeal.entity.Address;
@@ -153,5 +154,52 @@ public class OrderServiceImpl implements OrderService {
     public int cancelExpiredPendingOrders() {
         // 原有业务逻辑
         return 0;
+    }
+    @Override
+    public List<Order> getOrdersByMerchant(Long merchantId, String status) {
+        if (status != null && !status.isEmpty()) {
+            return orderMapper.selectByMerchantIdAndStatus(merchantId, status);
+        } else {
+            return orderMapper.selectByMerchantId(merchantId);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateOrderStatus(Long orderId, String targetStatus, Long merchantId) {
+        Order order = orderMapper.selectById(orderId);
+        if (order == null) {
+            throw new BusinessException("订单不存在");
+        }
+        // 校验商家权限
+        if (!order.getMerchantId().equals(merchantId)) {
+            throw new BusinessException("无权操作此订单");
+        }
+        // 状态机校验
+        OrderStatusEnum from = OrderStatusEnum.valueOf(order.getStatus());
+        OrderStatusEnum to = OrderStatusEnum.valueOf(targetStatus);
+        OrderStateMachine.checkTransition(from, to);
+
+        // 更新状态
+        order.setStatus(targetStatus);
+        // 记录对应的时间字段
+        LocalDateTime now = LocalDateTime.now();
+        switch (to) {
+            case CONFIRMED:
+                order.setConfirmTime(now);
+                break;
+            case PREPARING:
+                // 可选，但需求没要求，可不记录
+                break;
+            case DELIVERED:
+                order.setDeliverTime(now);
+                break;
+            case COMPLETED:
+                order.setCompleteTime(now);
+                break;
+            default:
+                break;
+        }
+        orderMapper.updateById(order);
     }
 }

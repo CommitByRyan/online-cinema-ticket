@@ -39,7 +39,7 @@ public class MerchantAuthController {
             }
             session.setAttribute("merchant", merchant);
             // 登录成功后跳转到商家菜品管理页
-            return "redirect:/merchant/dish/list";
+            return "redirect:/merchant/home";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "merchant/merchant_login";
@@ -69,4 +69,16 @@ public class MerchantAuthController {
         session.removeAttribute("merchant");
         return "redirect:/merchant/login";
     }
+    @GetMapping("/home")
+    public String home(HttpSession session, Model model) {
+        Merchant merchant = (Merchant) session.getAttribute("merchant");
+        if (merchant == null) {
+            // 未登录或 session 失效，直接回登录页
+            return "redirect:/merchant/login";
+        }
+        // 把 merchant 对象放到模型，页面里可以直接使用 ${merchant}
+        model.addAttribute("merchant", merchant);
+        return "merchant/home";   // 对应 templates/merchant/home.html
+    }
+
 }

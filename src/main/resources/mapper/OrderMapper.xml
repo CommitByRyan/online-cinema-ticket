@@ -54,9 +54,29 @@
           AND status = #{status}
         ORDER BY create_time DESC
     </select>
+    <update id="updateStatus">
+        UPDATE tb_order SET status = #{status} WHERE id = #{id}
+    </update>
     <select id="selectByUserId" resultType="com.group7.olineordermeal.entity.Order">
         SELECT * FROM `order`
         WHERE user_id = #{userId}
         ORDER BY create_time DESC
     </select>
+    <!-- 根据商家ID查询所有订单 -->
+    <select id="selectByMerchantId" resultMap="BaseResultMap">
+        SELECT * FROM tb_order
+        WHERE merchant_id = #{merchantId}
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据商家ID+状态查询订单 -->
+    <select id="selectByMerchantIdAndStatus" resultMap="BaseResultMap">
+        SELECT * FROM tb_order
+        WHERE merchant_id = #{merchantId}
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
 </mapper>
