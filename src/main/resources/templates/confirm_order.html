@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>确认订单</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>确认订单</h2>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-header">收货地址</div>
+                <div class="card-body">
+                    <div th:each="addr : ${addresses}" class="form-check">
+                        <input class="form-check-input" type="radio" name="addressId" th:value="${addr.id}" th:checked="${defaultAddress != null && defaultAddress.id == addr.id}" form="orderForm">
+                        <label class="form-check-label">
+                            <span th:text="${addr.receiverName} + ' ' + ${addr.phone}"></span><br>
+                            <span th:text="${addr.province}+' '+${addr.city}+' '+${addr.district}+' '+${addr.detailAddress}"></span>
+                        </label>
+                    </div>
+                    <a href="/user/address" class="btn btn-sm btn-link">管理地址</a>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">订单商品</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead><tr><th>菜品</th><th>单价</th><th>数量</th><th>小计</th></tr></thead>
+                        <tbody>
+                        <tr th:each="item : ${cartItems}">
+                            <td th:text="${item.dishName} + ' (' + ${item.merchantName} + ')'"></td>
+                            <td th:text="'¥'+${item.price}"></td>
+                            <td th:text="${item.quantity}"></td>
+                            <td th:text="'¥'+${item.subtotal}"></td>
+                        </tr>
+                        </tbody>
+                        <tfoot><tr><th colspan="3" class="text-end">总计</th><th th:text="'¥'+${total}"></th></tr></tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">备注</div>
+                <div class="card-body">
+                    <textarea name="remark" class="form-control" rows="2" placeholder="口味偏好等" form="orderForm"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>订单金额：<span class="text-danger" th:text="'¥'+${total}"></span></h5>
+                    <form id="orderForm" method="post" action="/order/create">
+                        <input type="hidden" name="addressId" id="selectedAddressId">
+                        <input type="hidden" name="remark" id="remark">
+                        <button type="submit" class="btn btn-success w-100">提交订单</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // 将选中的地址ID同步到隐藏域
+    document.querySelectorAll('input[name="addressId"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.getElementById('selectedAddressId').value = this.value;
+        });
+    });
+    // 如果没有默认选中，默认选中第一个
+    window.onload = function() {
+        let checkedRadio = document.querySelector('input[name="addressId"]:checked');
+        if (checkedRadio) {
+            document.getElementById('selectedAddressId').value = checkedRadio.value;
+        } else {
+            let first = document.querySelector('input[name="addressId"]');
+            if (first) {
+                first.checked = true;
+                document.getElementById('selectedAddressId').value = first.value;
+            }
+        }
+        // 备注同步
+        let remarkTextarea = document.querySelector('textarea[name="remark"]');
+        let remarkHidden = document.getElementById('remark');
+        remarkTextarea.addEventListener('input', function() {
+            remarkHidden.value = this.value;
+        });
+    };
+</script>
+</body>
+</html>

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class DishController {
+public class    DishController {
 
     @Autowired
     private DishService dishService;
@@ -25,10 +25,11 @@ public class DishController {
                            @RequestParam(defaultValue = "8") int pageSize,
                            Model model) {
         PageInfo<Dish> pageInfo = dishService.searchDishPage(search, pageNum, pageSize);
-        model.addAttribute("page", pageInfo);
+        model.addAttribute("page", pageInfo);   // <---- 必须是 "page"
         model.addAttribute("search", search);
         return "dish_list";
     }
+
 
     /**
      * 菜品详情（可选，用于点击详情按钮）

@@ -6,6 +6,7 @@ import java.util.List;
 
     public interface AddressService {
         List<Address> listByUser(Long userId);
+        Address getAddressById(Long id);
         Address getDefaultAddress(Long userId);
         void addAddress(Long userId, AddressDTO dto);
         void updateAddress(Long addressId, AddressDTO dto);

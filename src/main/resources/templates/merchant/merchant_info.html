@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>店铺信息</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>店铺信息</h2>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <form method="post" action="/merchant/info/update">
+        <div class="mb-2">
+            <label>店铺名称</label>
+            <input type="text" name="merchantName" class="form-control" th:value="${merchant.merchantName}" required>
+        </div>
+        <div class="mb-2">
+            <label>法人</label>
+            <input type="text" name="legalPerson" class="form-control" th:value="${merchant.legalPerson}">
+        </div>
+        <div class="mb-2">
+            <label>联系电话</label>
+            <input type="tel" name="phone" class="form-control" th:value="${merchant.phone}" required>
+        </div>
+        <div class="mb-2">
+            <label>地址</label>
+            <input type="text" name="address" class="form-control" th:value="${merchant.address}">
+        </div>
+        <div class="mb-2">
+            <label>营业执照号</label>
+            <input type="text" name="businessLicense" class="form-control" th:value="${merchant.businessLicense}">
+        </div>
+        <div class="mb-2">
+            <label>营业状态</label>
+            <select name="businessStatus" class="form-control">
+                <option value="OPEN" th:selected="${merchant.businessStatus == 'OPEN'}">营业中</option>
+                <option value="CLOSED" th:selected="${merchant.businessStatus == 'CLOSED'}">休息中</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">保存修改</button>
+        <a href="/merchant/dish/list" class="btn btn-secondary">返回菜品管理</a>
+    </form>
+</div>
+</body>
+</html>

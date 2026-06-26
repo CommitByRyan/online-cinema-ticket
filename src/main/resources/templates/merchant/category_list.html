@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>菜品分类管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>菜品分类</h2>
+    <a href="/merchant/dish/list" class="btn btn-secondary mb-3">返回菜品管理</a>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">新增分类</div>
+                <div class="card-body">
+                    <form method="post" action="/merchant/category/add">
+                        <div class="mb-2">
+                            <label>分类名称</label>
+                            <input type="text" name="categoryName" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>排序</label>
+                            <input type="number" name="sortOrder" class="form-control" value="0">
+                        </div>
+                        <button type="submit" class="btn btn-primary">添加</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">现有分类</div>
+                <ul class="list-group list-group-flush">
+                    <li th:each="cat : ${categories}" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span th:text="${cat.categoryName} + ' (排序:' + ${cat.sortOrder} + ')'"></span>
+                        <div>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="collapse" th:data-bs-target="'#edit'+${cat.id}">编辑</button>
+                            <a th:href="'/merchant/category/delete/'+${cat.id}" class="btn btn-sm btn-danger" onclick="return confirm('确定删除？')">删除</a>
+                        </div>
+                        <div th:id="'edit'+${cat.id}" class="collapse w-100 mt-2">
+                            <form method="post" th:action="'/merchant/category/update/'+${cat.id}">
+                                <input type="text" name="categoryName" th:value="${cat.categoryName}" class="form-control form-control-sm mb-1">
+                                <input type="number" name="sortOrder" th:value="${cat.sortOrder}" class="form-control form-control-sm mb-1">
+                                <button type="submit" class="btn btn-sm btn-success">保存</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

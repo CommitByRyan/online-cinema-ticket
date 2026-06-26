@@ -25,4 +25,13 @@ public interface DishMapper {
      * 批量查询菜品（用于购物车展示）
      */
     List<Dish> selectByIds(@Param("ids") List<Long> ids);
+
+
+    // 在 DishMapper.java 中添加
+    List<Dish> selectByMerchantId(@Param("merchantId") Long merchantId);
+
+    // 在 DishMapper.java 中添加
+    int insert(Dish dish);
+    int updateById(Dish dish);
+    int deleteById(@Param("id") Long id);
 }

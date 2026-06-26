@@ -48,4 +48,15 @@
         SELECT * FROM tb_order
         WHERE status = 'PENDING' AND expire_time &lt; #{now}
     </select>
+    <select id="selectByUserIdAndStatus" resultType="com.group7.olineordermeal.entity.Order">
+        SELECT * FROM `order`
+        WHERE user_id = #{userId}
+          AND status = #{status}
+        ORDER BY create_time DESC
+    </select>
+    <select id="selectByUserId" resultType="com.group7.olineordermeal.entity.Order">
+        SELECT * FROM `order`
+        WHERE user_id = #{userId}
+        ORDER BY create_time DESC
+    </select>
 </mapper>

@@ -12,9 +12,15 @@ import java.util.List;
 
     @Service
     public class AddressServiceImpl implements AddressService {
+        @Override
+        public Address getAddressById(Long id) {
+            // 查询逻辑
+            return addressMapper.selectById(id);
+        }
 
         @Autowired
         private AddressMapper addressMapper;
+
 
         @Override
         public List<Address> listByUser(Long userId) {

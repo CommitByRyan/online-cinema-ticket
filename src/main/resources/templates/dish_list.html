@@ -82,17 +82,38 @@
     <!-- 分页 -->
     <nav aria-label="Page navigation" class="mt-4">
         <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${page.hasPreviousPage()} ? '' : 'disabled'">
-                <a class="page-link" th:href="@{/dish/list(pageNum=${page.prePage}, dishName=${search.dishName}, minPrice=${search.minPrice}, maxPrice=${search.maxPrice}, merchantName=${search.merchantName})}">上一页</a>
+            <li class="page-item" th:classappend="${page.hasPreviousPage} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/dish/list(pageNum=${page.prePage},
+                                    dishName=${search.dishName},
+                                    minPrice=${search.minPrice},
+                                    maxPrice=${search.maxPrice},
+                                    merchantName=${search.merchantName})}">上一页</a>
             </li>
-            <li th:each="i : ${#numbers.sequence(1, page.pages)}" class="page-item" th:classappend="${page.pageNum == i} ? 'active' : ''">
-                <a class="page-link" th:href="@{/dish/list(pageNum=${i}, dishName=${search.dishName}, minPrice=${search.minPrice}, maxPrice=${search.maxPrice}, merchantName=${search.merchantName})}" th:text="${i}"></a>
+
+            <li th:each="i : ${#numbers.sequence(1, page.pages)}"
+                class="page-item"
+                th:classappend="${page.pageNum == i} ? 'active' : ''">
+                <a class="page-link"
+                   th:href="@{/dish/list(pageNum=${i},
+                                    dishName=${search.dishName},
+                                    minPrice=${search.minPrice},
+                                    maxPrice=${search.maxPrice},
+                                    merchantName=${search.merchantName})}"
+                   th:text="${i}"></a>
             </li>
-            <li class="page-item" th:classappend="${page.hasNextPage()} ? '' : 'disabled'">
-                <a class="page-link" th:href="@{/dish/list(pageNum=${page.nextPage}, dishName=${search.dishName}, minPrice=${search.minPrice}, maxPrice=${search.maxPrice}, merchantName=${search.merchantName})}">下一页</a>
+
+            <li class="page-item" th:classappend="${page.hasNextPage} ? '' : 'disabled'">
+                <a class="page-link"
+                   th:href="@{/dish/list(pageNum=${page.nextPage},
+                                    dishName=${search.dishName},
+                                    minPrice=${search.minPrice},
+                                    maxPrice=${search.maxPrice},
+                                    merchantName=${search.merchantName})}">下一页</a>
             </li>
         </ul>
     </nav>
+
 </div>
 </body>
 </html>

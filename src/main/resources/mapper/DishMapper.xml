@@ -63,5 +63,32 @@
             #{id}
         </foreach>
     </select>
+    <select id="selectByMerchantId" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/>
+        FROM tb_dish d
+        LEFT JOIN tb_merchant m ON d.merchant_id = m.id
+        WHERE d.merchant_id = #{merchantId}
+        ORDER BY d.create_time DESC
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_dish (merchant_id, category_id, dish_name, price, original_price, image, description, status, sales)
+        VALUES (#{merchantId}, #{categoryId}, #{dishName}, #{price}, #{originalPrice}, #{image}, #{description}, #{status}, #{sales})
+    </insert>
 
+    <update id="updateById">
+        UPDATE tb_dish
+        SET category_id = #{categoryId},
+            dish_name = #{dishName},
+            price = #{price},
+            original_price = #{originalPrice},
+            image = #{image},
+            description = #{description},
+            status = #{status},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM tb_dish WHERE id = #{id}
+    </delete>
 </mapper>

@@ -13,4 +13,6 @@ public interface OrderMapper {
     Order selectById(Long id);
     List<Order> selectExpiredPendingOrders(@Param("now") LocalDateTime now);
     // 其他方法可以根据需要增加
+    List<Order> selectByUserIdAndStatus(@Param("userId") Long userId, @Param("status") String status);
+    List<Order> selectByUserId(@Param("userId") Long userId);
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商家入驻</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h3>商家入驻申请</h3>
+        </div>
+        <div class="card-body">
+            <!-- 错误提示（controller 通过 model 传递） -->
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <form th:action="@{/merchant/register}" method="post">
+                <div class="mb-2"><label>用户名</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="mb-2"><label>密码</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <div class="mb-2"><label>店铺名称</label>
+                    <input type="text" name="merchantName" class="form-control" required>
+                </div>
+                <div class="mb-2"><label>法人姓名</label>
+                    <input type="text" name="legalPerson" class="form-control">
+                </div>
+                <div class="mb-2"><label>联系电话</label>
+                    <input type="tel" name="phone" class="form-control" required>
+                </div>
+                <div class="mb-2"><label>店铺地址</label>
+                    <input type="text" name="address" class="form-control">
+                </div>
+                <div class="mb-2"><label>营业执照号</label>
+                    <input type="text" name="businessLicense" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">提交申请</button>
+            </form>
+            <hr>
+            <div class="text-center">
+                已有账号？ <a th:href="@{/merchant/login}">登录</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
