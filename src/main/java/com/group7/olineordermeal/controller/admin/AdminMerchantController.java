@@ -34,4 +34,5 @@ public class AdminMerchantController {
         merchantService.updateStatus(id, "BANNED");
         return Result.success();
     }
+
 }

@@ -4,7 +4,9 @@ import com.group7.olineordermeal.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-    @Mapper
+import java.time.LocalDateTime;
+
+@Mapper
     public interface UserMapper {
 
         /**
@@ -31,5 +33,7 @@ import org.apache.ibatis.annotations.Param;
          * 根据ID查询用户
          */
         User selectById(@Param("id") Long id);
+
+        long countActiveUsersSince(LocalDateTime sevenDaysAgo);
     }
 
