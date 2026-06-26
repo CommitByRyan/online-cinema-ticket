@@ -154,3 +154,13 @@ SELECT id, username, password, LENGTH(password) AS len FROM tb_user WHERE userna
 UPDATE tb_user
 SET password = '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOpw7Kc4n1jfC'
 WHERE username IN ('user1','user2');
+
+
+USE ordermeal;  -- 切换到项目库
+
+ALTER TABLE tb_address
+    ADD COLUMN create_time DATETIME DEFAULT CURRENT_TIMESTAMP AFTER detail_address,
+    ADD COLUMN update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER create_time;
+
+-- 为已经存在的记录补上时间（可选）
+UPDATE tb_address SET create_time = NOW(), update_time = NOW() WHERE create_time IS NULL;

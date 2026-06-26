@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group7.olineordermeal.mapper.AddressMapper">
 
     <resultMap id="BaseResultMap" type="com.group7.olineordermeal.entity.Address">
@@ -15,32 +16,44 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
+    <!-- 查询用户全部地址（默认地址排前） -->
     <select id="selectByUserId" resultMap="BaseResultMap">
-        SELECT * FROM tb_address WHERE user_id = #{userId} ORDER BY is_default DESC, create_time DESC
+        SELECT *
+        FROM tb_address
+        WHERE user_id = #{userId}
+        ORDER BY is_default DESC, create_time DESC
     </select>
 
     <select id="selectDefaultByUserId" resultMap="BaseResultMap">
-        SELECT * FROM tb_address WHERE user_id = #{userId} AND is_default = 1 LIMIT 1
+        SELECT *
+        FROM tb_address
+        WHERE user_id = #{userId} AND is_default = 1
+            LIMIT 1
     </select>
 
     <select id="selectById" resultMap="BaseResultMap">
-        SELECT * FROM tb_address WHERE id = #{id}
+        SELECT *
+        FROM tb_address
+        WHERE id = #{id}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO tb_address (user_id, receiver_name, phone, province, city, district, detail_address, is_default)
-        VALUES (#{userId}, #{receiverName}, #{phone}, #{province}, #{city}, #{district}, #{detailAddress}, #{isDefault})
+        INSERT INTO tb_address
+        (user_id, receiver_name, phone, province, city, district, detail_address, is_default)
+        VALUES (#{userId}, #{receiverName}, #{phone}, #{province}, #{city},
+                #{district}, #{detailAddress}, #{isDefault})
     </insert>
 
     <update id="updateById">
         UPDATE tb_address
         SET receiver_name = #{receiverName},
-        phone = #{phone},
-        province = #{province},
-        city = #{city},
-        district = #{district},
-        detail_address = #{detailAddress},
-        is_default = #{isDefault}
+            phone = #{phone},
+            province = #{province},
+            city = #{city},
+            district = #{district},
+            detail_address = #{detailAddress},
+            is_default = #{isDefault},
+            update_time = NOW()
         WHERE id = #{id}
     </update>
 
@@ -51,5 +64,4 @@
     <update id="clearDefaultByUserId">
         UPDATE tb_address SET is_default = 0 WHERE user_id = #{userId}
     </update>
-
 </mapper>

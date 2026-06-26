@@ -1,2 +1,78 @@
-<h2>我的订单</h2>
-<p>暂未开发（等待订单模块完成）</p>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增收货地址</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>新增收货地址</h2>
+
+    <!-- 业务异常提示（如 DB 异常） -->
+    <div th:if="${errorMsg}" class="alert alert-danger" th:text="${errorMsg}"></div>
+
+    <form th:action="@{/user/address/add}" th:object="${addressDTO}" method="post">
+
+        <!-- 收货人姓名 -->
+        <div class="mb-3">
+            <label class="form-label">收货人姓名</label>
+            <input type="text" th:field="*{receiverName}"
+                   class="form-control" placeholder="请输入收货人姓名">
+            <div class="text-danger" th:if="${#fields.hasErrors('receiverName')}"
+                 th:errors="*{receiverName}"></div>
+        </div>
+
+        <!-- 联系电话 -->
+        <div class="mb-3">
+            <label class="form-label">手机号</label>
+            <input type="text" th:field="*{phone}"
+                   class="form-control" placeholder="请输入手机号">
+            <div class="text-danger" th:if="${#fields.hasErrors('phone')}"
+                 th:errors="*{phone}"></div>
+        </div>
+
+        <!-- 省 / 城市 / 区 -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">省</label>
+                <input type="text" th:field="*{province}"
+                       class="form-control" placeholder="省">
+            </div>
+            <div class="col">
+                <label class="form-label">城市</label>
+                <input type="text" th:field="*{city}"
+                       class="form-control" placeholder="城市">
+            </div>
+            <div class="col">
+                <label class="form-label">区/县</label>
+                <input type="text" th:field="*{district}"
+                       class="form-control" placeholder="区/县">
+            </div>
+        </div>
+
+        <!-- 详细地址 -->
+        <div class="mb-3">
+            <label class="form-label">详细地址</label>
+            <textarea th:field="*{detailAddress}" rows="3"
+                      class="form-control" placeholder="街道、门牌号等"></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('detailAddress')}"
+                 th:errors="*{detailAddress}"></div>
+        </div>
+
+        <!-- 是否默认 -->
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox"
+                   th:field="*{isDefault}" value="1" id="defaultCheck">
+            <label class="form-check-label" for="defaultCheck">
+                设为默认地址
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">保存地址</button>
+        <a th:href="@{/user/address}" class="btn btn-secondary ms-2">返回列表</a>
+    </form>
+</div>
+</body>
+</html>
