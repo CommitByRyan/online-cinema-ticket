@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商家管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>商家管理</h2>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>店铺名称</th>
+            <th>法人</th>
+            <th>电话</th>
+            <th>状态</th>
+            <th>营业状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="m : ${merchants}">
+            <td th:text="${m.id}"></td>
+            <td th:text="${m.username}"></td>
+            <td th:text="${m.merchantName}"></td>
+            <td th:text="${m.legalPerson}"></td>
+            <td th:text="${m.phone}"></td>
+            <td th:text="${m.status}"></td>
+            <td th:text="${m.businessStatus}"></td>
+            <td>
+                <!-- 封禁按钮（当不是 BANNED 时显示） -->
+                <a th:if="${m.status != 'BANNED'}"
+                   th:href="@{'/admin/merchant/ban/' + ${m.id}}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('确定封禁该商家吗？')">封禁</a>
+
+                <!-- 解封按钮（当是 BANNED 时显示） -->
+                <a th:if="${m.status == 'BANNED'}"
+                   th:href="@{'/admin/merchant/unban/' + ${m.id}}"
+                   class="btn btn-sm btn-success"
+                   onclick="return confirm('确定解封该商家吗？')">解封</a>
+
+                <!-- 审核通过按钮（仅 PENDING 状态显示） -->
+                <a th:if="${m.status == 'PENDING'}"
+                   th:href="@{'/admin/merchant/approve/' + ${m.id}}"
+                   class="btn btn-sm btn-primary"
+                   onclick="return confirm('通过该商家审核？')">通过审核</a>
+            </td>
+        </tr>
+        <tr th:if="${merchants == null or #lists.isEmpty(merchants)}">
+            <td colspan="8" class="text-center">暂无商家数据</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/admin/statistics}" class="btn btn-secondary">返回平台统计</a>
+</div>
+</body>
+</html>

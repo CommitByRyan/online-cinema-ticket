@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${dish.dishName}">菜品详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+
+    <h2 th:text="${dish.dishName}">菜品名称</h2>
+
+    <div class="row">
+        <!-- 图片 -->
+        <div class="col-md-5">
+            <img th:src="${dish.image != null ? dish.image : '/images/default.jpg'}"
+                 class="img-fluid rounded"
+                 alt="菜品图片">
+        </div>
+
+        <!-- 基本信息 -->
+        <div class="col-md-7">
+            <p><strong>价格：</strong> <span th:text="'¥' + ${dish.price}">0.00</span></p>
+            <p><strong>商家：</strong> <span th:text="${dish.merchantName}">商家名称</span></p>
+            <p><strong>描述：</strong></p>
+            <p th:text="${dish.description != null ? dish.description : '暂无描述'}">这里显示菜品描述</p>
+
+            <a th:href="@{/dish/list}" class="btn btn-outline-primary mt-3">返回列表</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

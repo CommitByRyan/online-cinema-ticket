@@ -147,3 +147,20 @@ INSERT INTO tb_dish (merchant_id, category_id, dish_name, price, image, status, 
 -- 为了方便，重新修改 tb_user 表添加 role 字段（执行以下 ALTER）
 ALTER TABLE tb_user ADD COLUMN role VARCHAR(20) DEFAULT 'USER' COMMENT 'USER/ADMIN';
 UPDATE tb_user SET role = 'ADMIN' WHERE username = 'user1';
+
+SHOW COLUMNS FROM tb_user LIKE 'password';
+SELECT id, username, password, LENGTH(password) AS len FROM tb_user WHERE username IN ('user1','user2');
+
+UPDATE tb_user
+SET password = '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOpw7Kc4n1jfC'
+WHERE username IN ('user1','user2');
+
+
+USE ordermeal;  -- 切换到项目库
+
+ALTER TABLE tb_address
+    ADD COLUMN create_time DATETIME DEFAULT CURRENT_TIMESTAMP AFTER detail_address,
+    ADD COLUMN update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER create_time;
+
+-- 为已经存在的记录补上时间（可选）
+UPDATE tb_address SET create_time = NOW(), update_time = NOW() WHERE create_time IS NULL;

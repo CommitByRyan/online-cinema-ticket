@@ -35,7 +35,18 @@
         SELECT * FROM tb_merchant WHERE username = #{username}
     </select>
 
+    <!-- 其它已有的 resultMap、insert、update、select ... 省略 -->
+
+    <!-- 新增：按状态查询 -->
     <select id="selectByStatus" resultMap="BaseResultMap">
-        SELECT * FROM tb_merchant WHERE status = #{status}
+        SELECT *
+        FROM tb_merchant
+        WHERE status = #{status}
+        ORDER BY create_time DESC
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM tb_merchant
+        ORDER BY create_time DESC
     </select>
 </mapper>

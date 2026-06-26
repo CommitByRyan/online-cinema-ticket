@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>👤用户登录 - 在线点餐系统</title>
+    <!-- 国内稳定CDN，无需本地存放bootstrap，不会404 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 自定义美化样式，仅新增logo样式，原有样式完全保留 -->
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e0f7fa 0%, #f0f9ff 100%);
+            display: flex;
+            align-items: center;
+        }
+        .login-card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 8px 30px rgba(13, 110, 253, 0.12);
+            overflow: hidden;
+        }
+        .card-header {
+            background: linear-gradient(90deg, #0d6efd, #0b5ed7) !important;
+            padding: 1.25rem !important;
+            text-align: center;
+        }
+        /* Logo专属样式 */
+        .platform-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background: #fff;
+            padding: 4px;
+        }
+        .form-control {
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #dee2e6;
+            transition: all 0.25s ease;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+            border-color: #0d6efd;
+        }
+        .submit-btn {
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+        .alert-danger {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7 col-sm-10">
+            <div class="card login-card shadow-lg">
+                <!-- 头部仅新增logo，其余文字完全保留你原版内容 -->
+                <div class="card-header bg-primary text-white text-center">
+                    <!-- logo放置规则：把你的图片命名logo.png放入 src/main/resources/static 即可正常显示 -->
+                    <img src="/logo.png" alt="点餐平台logo" class="platform-logo">
+                    <h3 class="mb-0 fw-bold">👤不饱了么平台👤</h3>
+
+                    <p class="mb-0 mt-1 opacity-75 fs-6">在线点餐系统后台入口</p >
+                </div>
+
+                <div class="card-body p-4">
+                    <!-- 错误提示区域（原有功能完全保留） -->
+                    <div th:if="${error}" class="alert alert-danger mb-4 text-center" th:text="${error}"></div>
+
+                    <!-- 登录表单 功能无任何修改 -->
+                    <form method="post" action="/login">
+                        <div class="mb-4">
+                            <label class="form-label fw-medium">用户名/手机号</label>
+                            <input type="text" name="loginName" class="form-control" required placeholder="请输入账号或手机号">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-medium">密码</label>
+                            <input type="password" name="password" class="form-control" required placeholder="请输入登录密码">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 submit-btn fs-5">登录</button>
+                    </form>
+
+                    <!-- 找回密码按钮 -->
+                    <div th:if="${showFindPwd}" class="mt-4 text-center">
+                        <a href="" class="btn btn-link text-primary">找回密码</a >
+                    </div>
+
+                    <hr class="my-4 text-secondary opacity-25">
+
+                    <!-- 注册跳转 -->
+                    <div class="text-center">
+                        <span class="text-secondary">还没有账号？</span>
+                        <a th:href="@{/register}" class="text-primary fw-medium text-decoration-none">立即注册</a >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CDN引入JS，不用本地存放bootstrap文件，彻底解决404 -->
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

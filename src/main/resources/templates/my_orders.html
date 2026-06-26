@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <!-- 采用项目中已经使用的 Bootstrap CDN，若已经在布局模板里引入，可删除此行 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+
+    <h2 class="mb-3">我的订单</h2>
+
+    <!-- ① 当没有订单时的提示 -->
+    <div th:if="${orders == null or #lists.isEmpty(orders)}"
+         class="alert alert-info text-center">
+        暂无订单，去 <a th:href="@{/dish/list}">点餐</a> 吧～
+    </div>
+
+    <!-- ② 有订单时的表格 -->
+    <table th:if="${orders != null and !#lists.isEmpty(orders)}"
+           class="table table-hover table-bordered">
+        <thead class="table-light">
+        <tr>
+            <th>#</th>
+            <th>订单号</th>
+            <th>商家ID</th>
+            <th>总金额</th>
+            <th>状态</th>
+            <th>下单时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order, stat : ${orders}">
+            <!-- 序号 -->
+            <td th:text="${stat.count + 1}"></td>
+
+            <!-- 订单号 -->
+            <td th:text="${order.orderNo}"></td>
+
+            <!-- 商家ID（你可以改为商家名称，若页面有 merchantName 字段） -->
+            <td th:text="${order.merchantId}"></td>
+
+            <!-- 总金额 -->
+            <td th:text="'¥' + ${order.totalAmount}"></td>
+
+            <!-- 状态（直接展示枚举名或中文描述） -->
+            <td th:text="${order.status}"></td>
+
+            <!-- 创建时间 -->
+            <td th:text="${#dates.format(order.createTime, 'yyyy-MM-dd HH:mm')}"></td>
+
+            <!-- 操作按钮 -->
+            <td>
+                <a th:href="@{/order/detail/{id}(id=${order.id})}"
+                   class="btn btn-sm btn-outline-primary">详情</a>
+
+                <!-- 如果订单仍是待支付(PENDING)则提供取消入口 -->
+                <a th:if="${order.status == 'PENDING'}"
+                   th:href="@{/order/cancel?orderId=${order.id}}"
+                   class="btn btn-sm btn-outline-danger ms-1"
+                   onclick="return confirm('确定取消该订单吗？')">取消</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 返回个人中心的按钮 -->
+    <a th:href="@{/user/profile}" class="btn btn-secondary mt-3">返回个人中心</a>
+</div>
+</body>
+</html>
