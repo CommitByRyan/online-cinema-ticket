@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: 构建与测试
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: ordermeal
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: 初始化数据库
+        run: mysql -h 127.0.0.1 -P 3306 -uroot -proot ordermeal < doc/init.sql
+
+      - name: 编译并运行测试
+        run: ./mvnw -B clean verify
+        env:
+          DB_URL: jdbc:mysql://127.0.0.1:3306/ordermeal?serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=utf8
+          DB_USER: root
+          DB_PASSWORD: root
