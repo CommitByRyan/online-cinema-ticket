@@ -142,22 +142,12 @@ INSERT INTO tb_dish (merchant_id, category_id, dish_name, price, image, status, 
                                                                                            (1, 1, '水煮鱼', 68.00, '/images/shuizhuyu.jpg', 'ONLINE', 85),
                                                                                            (1, 2, '拍黄瓜', 12.00, '/images/huanggu.jpg', 'ONLINE', 200);
 
--- 插入管理员用户（角色不同，但也可以直接用 user 表，加一个 role 字段。为简化，单独建 admin 表？但题目要求用 user 表统一）
--- 我们给 user1 增加管理员权限？为了简单，我们在用户表加一个字段 role，但之前表没有。建议在 tb_user 增加 role 字段。
--- 为了方便，重新修改 tb_user 表添加 role 字段（执行以下 ALTER）
+-- 管理员账号：项目用 tb_user 统一存放所有登录账号，通过 role 字段区分 USER / ADMIN
+-- 下面先给 tb_user 补上 role 字段，再把 user1 提升为管理员
 ALTER TABLE tb_user ADD COLUMN role VARCHAR(20) DEFAULT 'USER' COMMENT 'USER/ADMIN';
 UPDATE tb_user SET role = 'ADMIN' WHERE username = 'user1';
 
-SHOW COLUMNS FROM tb_user LIKE 'password';
-SELECT id, username, password, LENGTH(password) AS len FROM tb_user WHERE username IN ('user1','user2');
-
-UPDATE tb_user
-SET password = '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOpw7Kc4n1jfC'
-WHERE username IN ('user1','user2');
-
-
-USE ordermeal;  -- 切换到项目库
-
+-- tb_address 补充创建/更新时间字段（Mapper 中的查询与写入依赖这两列）
 ALTER TABLE tb_address
     ADD COLUMN create_time DATETIME DEFAULT CURRENT_TIMESTAMP AFTER detail_address,
     ADD COLUMN update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER create_time;
